@@ -285,7 +285,11 @@ $('#sendMe').click(function () {
         </div>
         <pre>
             <code>
-git branch --track develop master
+git branch --track develop master                
+git checkout develop
+git commit -m "Changes"
+git checkout master
+git merge --ff develop
 
             </code>
         </pre>
