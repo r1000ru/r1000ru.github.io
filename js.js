@@ -4,7 +4,31 @@ for (var b = 0; b < codeBlockes.length; b++) {
     hljs.highlightBlock(codeBlockes[b]);
 }
 
-// Обработчики задания CSS
+// Задание по PHP
+document.getElementById('downloadMeSend').addEventListener('click', function () {
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
+        
+        var data = JSON.parse(this.responseText);
+        if (!data.result) {
+            alert(data.message);
+        } else {
+            alert(data.result);
+        }
+        
+    });
+    oReq.addEventListener("error", function(){
+        var data = JSON.parse(this.responseText);
+        alert(data.message);
+        
+    });
+    oReq.open("GET", 'http://r1000.ru/Test/download?url='+encodeURIComponent(document.getElementById('downloadMe').value));
+    oReq.send();
+});
+
+
+
+// Задание по  CSS
 var popUp = document.getElementById('popUp');
 document.getElementById('popUpMe').addEventListener('click', function () {
     popUp.style.display = "block";

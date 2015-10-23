@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Тестовое задание для Кораблика</title>
+        <link rel="shortcut icon" href="http://r1000.ru/favicon.ico" type="image/x-icon">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
@@ -12,29 +13,42 @@
     <body>
         <div class="content">
             <h1>1. PHP</h1>
+            <input type="text" placeholder="Введите URL для загрузки" id="downloadMe"/>
+            <input type="button" value="Погнали!" id="downloadMeSend"/>
             <pre>
                 <code class="codeblock php">
-class DownLoader {
-    private $url;
-
+class Korablik {
+    private $url = null;
+    
     public function __construct($url = null) {
         $this->url = $url;
     }
-
-    public function setUrl($url) {
-        $this->url = $url;
-    }
-
-    public function download() {
-        if ($this->url === null) {
-            throw new Exception("Set URL for download", 405);
+    
+    public function url($url = FALSE) {
+        if ($url) {
+            $this->url = $url;
         }
-
+        return $url;
     }
-
+    
+    public function get() {
+        if (mb_substr($this->url, 0, 7) !== 'http://' && mb_substr($this->url, 0, 8) !== 'https://') {
+            throw new Exception('Начало URL должно быть http(s):// а не '.mb_substr($this->url, 0, 8), 400);
+        }
+        $opts = array('http' => array('method' => 'GET', 'timeout' => 10));
+        $context = stream_context_create($opts);
+        $data = @file_get_contents($this->url, false, $context);
+        
+        if (!$data) {
+            $error = error_get_last();
+            throw new Exception("Ошибочка при загрузке: ".$error['message'], 400);
+        }
+        return $data;
+    }
 }
                 </code>
             </pre>
+            
             <h1>2. MySQL</h1>
             <p>
                 Во первых мне несколько непонятно, почему в таблице products есть столбец id, а не product_id. 
