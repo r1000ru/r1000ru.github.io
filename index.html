@@ -1,1 +1,290 @@
-Hello Denis
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Тестовое задание для Кораблика</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="styles.css" media="all" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/default.min.css">
+        
+    </head>
+    <body>
+        <div class="content">
+            <h1>1. PHP</h1>
+            <pre>
+                <code class="codeblock php">
+class DownLoader {
+    private $url;
+
+    public function __construct($url = null) {
+        $this->url = $url;
+    }
+
+    public function setUrl($url) {
+        $this->url = $url;
+    }
+
+    public function download() {
+        if ($this->url === null) {
+            throw new Exception("Set URL for download", 405);
+        }
+
+    }
+
+}
+                </code>
+            </pre>
+            <h1>2. MySQL</h1>
+            <p>
+                Во первых мне несколько непонятно, почему в таблице products есть столбец id, а не product_id. 
+                Исходя из задания - это артикул товара, то есть он не уникален для данной таблицы (может встречатся в разных заказах, а на практике - 
+                и в одном заказе, если один и то же товар продается часть по одной цене, а другая - по другой), а значит не правильно 
+                его именовать так, как указано в задании. Да и таблицу лучше былобы именовать ordersProducts, так как в products разумнее
+                размещать именно данные о товарах и их уникальные id(артикулы). В ответе использовано исходное наименование, как указано в задании.
+            </p>
+            <pre>
+                <code class="codeblock sql">
+SELECT 
+    clients.name, 
+    clients.email, 	
+    COUNT(orders.id) as orders,
+    SUM(products.price*products.count) AS total
+FROM products 
+JOIN orders ON products.order_id=orders.id 
+RIGHT OUTER JOIN clients ON orders.client_id = clients.id 
+WHERE (products.id IN (151515,151617,151514)) OR (clients.email LIKE '%@mail.ru')
+GROUP BY orders.client_id
+ORDER BY total 
+                </code>
+            </pre>
+            <h1>3. HTML</h1>
+            <h5>
+                А вы уверены что для проверки знаний HTML нужно сверстать таблицу в 
+                блоках (так сказано в задании), и вообще что это здоровое решение?
+            </h5>
+            <div class="megatable">
+                <div style="display: block; float:left; width: 50%; border-right: 1px solid black;">
+                    <div style="border-bottom: 1px solid black;">
+                        <div style="float:left; width: 50%; border-right: 1px solid black;">6</div>
+                        7<br class="clear">
+                    </div>
+                    <div style="border-bottom: 1px solid black;">
+                        <div style="float:left; width: 50%; border-right: 1px solid black;">10</div>
+                        11<br class="clear">
+                    </div>
+                    <div class="fatGrayUnderLineLeftWrap">
+                        Жирный, курсив серого цвета с подчеркиванием и увеличенным интервалом.
+                        <br class="clear">
+                    </div>
+                </div>
+                <div style="border-left: 1px solid black; margin-left: 50%;">
+                    <div style="border-bottom: 1px solid black; width: 100%;">
+                        <div style="float:left; width: 50%;">
+                            Тест стиля<sup>Произвольный текст</sup>
+                        </div>
+                        <div style="margin-left: 50%;  border-left: 1px solid black;">
+                            <div style="width: 100%; border-bottom: 1px solid black;">
+                                9
+                            </div>
+                            <div style="width: 100%; border-bottom: 1px solid black;">
+                                12
+                            </div>
+                            <div style="width: 100%;">
+                                14
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <ul>
+                                <li>Первый</li>
+                                <li>
+                                    Второй
+                                    <ol>
+                                        <li>
+                                            Снова второй
+                                            <ul>
+                                                <li>И снова второй</li>
+                                            </ul>
+                                        </li>
+                                        <li>Опять второй</li>
+                                    </ol>
+                                </li>
+                                <li>Третий</li>
+                            </ul>
+                    </div>
+                    <br class="clear">
+                </div>
+                
+                
+            </div>
+            <h5>
+                На всякий случай ниже приведена человеческая таблица с использованием 
+                тега "table" предназначенного для рисования таблиц
+            </h5>
+            
+            <table border="1" width="100%" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>6</td>
+                        <td>7</td>
+                        <td rowspan="3">
+                            Тест стиля<sup>Произвольный текст</sup>
+                        </td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>11</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" rowspan="2" class="fatGrayUnderLineLeftWrap">
+                            Жирный, курсив серого цвета с подчеркиванием и увеличенным интервалом.
+                        </td>
+                        <td>14</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <ul>
+                                <li>Первый</li>
+                                <li>
+                                    Второй
+                                    <ol>
+                                        <li>
+                                            Снова второй
+                                            <ul>
+                                                <li>И снова второй</li>
+                                            </ul>
+                                        </li>
+                                        <li>Опять второй</li>
+                                    </ol>
+                                </li>
+                                <li>Третий</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h1>4. CSS</h1>
+            <input type="button" id='popUpMe' value='Кликни по мне для отображения задания'>
+            <h1>5. Javascript</h1>
+            <p>
+                За применение подобных вещей на практике, разработчика нужно гнать взашей, так как JS это не PHP. 
+                Если мы используем не целочисленные ключи - то это уже не массив, а объект со свойствами, названия которых есть ключи.
+                Если же мы используем целочисленные ключи, то создание нескольких объектов товаров, приведет к созданию массива из количества элементов равному
+                максимальному ID + 1. Т.е. в нижеприведенном случае мы получаем массив из 1233344 элементов, хотя фактически из только 3. Если каждый объект
+                товара будет создан на основе прототипа и иметь методы и какие-то дефолтные свойства, то всяческие мобильные браузеры будут загибаться, а 
+                настольные - крайне не комфортно себя чувствовать.
+            </p>
+            <pre>
+                <code class="codeblock javascripts">
+var goods = [];
+var summ = 0;
+goods[123343] = {
+    count: 4,
+    price: 3.43
+};
+goods[1233343] = {
+    count: 2,
+    price: 2.43
+};
+goods[923343] = {
+    count: 4,
+    price: 3.43
+};
+
+window.onbeforeunload = function() {
+    goods.forEach(function(good){
+        summ += good.count*good.price;
+    });
+    alert(summ);
+}
+                </code>
+            </pre>
+            <p>
+                Вышеприведенный код отобразит результат при попытке закрыть закладку в браузере или перейти на другой URL.
+                Но так как подобное поведение есть очень плохая практика, а сделал реакцию на кнопочку, а не на закрытие.
+            </p>
+            <input type="button" id='calcMe' value='Кликни по мне - результат покажу'>
+            <h1>6. jQuery</h1>
+            <label for='date1'>Введешь эту дату - вторую нельзя будет изменить: <input type='text' id='date1' placeholder="YYYY-MM-DD"></label><br/>
+            <label for='date2'>Хочешь ввести эту дату - сначала сотри первую: <input type='text' id='date2' placeholder="YYYY-MM-DD"></label><br/>
+            <input type='button' value='Отправить на сервер' id='sendMe'/>
+            <p id="sendResult"></p>
+            <pre>
+                <code class='codeblock javascript'>
+var d1 = $('#date1');
+var d2 = $('#date2');
+
+var d2Block = function (e) {
+    if ($(e).val() !== '') {
+        d2.attr('disabled', true);
+    } else {
+        d2.removeAttr('disabled');
+    }
+};
+
+function check() {
+    result = true;
+
+    var p = $('#sendResult');
+    p.css('color', 'red').empty();
+    if (d1.val() !== "") {
+        var timestamp = Date.parse(d1.val());
+        if (isNaN(timestamp) === true) {
+            p.append('<br/>Ошибка в дате 1');
+            result = false;
+        }
+    }
+    if (d2.val() !== "") {
+        var timestamp = Date.parse(d2.val());
+        if (isNaN(timestamp) === true) {
+            p.append('<br/>Ошибка в дате 2');
+            result = false;
+        }
+    }
+    return result;
+}
+
+
+d1.keydown(function () {
+    d2Block(this);
+}).change(function () {
+    d2Block(this);
+    check();
+}).blur(function () {
+    d2Block(this);
+    check();
+}).keyup(function () {
+    d2Block(this);
+});
+d2.change(function () {
+    check();
+}).blur(function () {
+    check();
+});
+$('#sendMe').click(function () {
+    if (check()) {
+        // Да-да, используем CORS
+        $.getJSON("http://r1000.ru/Test/dateJs", {
+            'date1': d1.val(),
+            'date2': d2.val()
+        }, function (resp) {
+            var html = 'Дата 1 = ' + resp.result.date1 + '<br/>Дата 2 = ' + resp.result.date2;
+            $('#sendResult').css('color', 'black').html(html);
+        });
+    }
+});    
+                </code>
+            </pre>
+            <h1>7. Git</h1>
+        </div>
+        <div id='popUp'>
+            Кликни по мне - я и закроюсь :-)
+        </div>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+        <script src='js.js'></script>
+    </body>
+</html>
