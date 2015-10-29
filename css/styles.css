@@ -1,0 +1,31 @@
+/* 
+    Created on : 28.10.2015, 15:48:24
+    Author     : Roman Sorokin
+*/
+
+.control {
+    float: left;
+    width: 350px;
+}
+.control input {
+    width: 100%;
+}
+.info {
+    font-size: 12px;
+    margin-bottom: 15px;
+    color: #ccc;
+}
+.atmosphere{
+    height: 800px;
+    border: 1px solid blue;
+    margin-left: 360px;
+}
+#balloonDiv {
+    width: 50px;
+    height: 50px;
+    background-color: rgb(125,0,0);
+    margin-left: 200px;
+    margin-top: 748px;
+    border-radius: 24px;
+    border-bottom: 2px solid black;
+}
