@@ -13,12 +13,13 @@
  *  
  * @returns {Aerostat}
  */
-var Balloon = function (radius, weight, tempC, onUpdate) {
+var Balloon = function (radius, weight, tempC, tempMaxC, onUpdate) {
     
     var atm = new Atmosphere(tempC);                                            // Наш шар летает в атмосфере при заданной температуре
 
     // Телеметрические локальные переменные
     var temp = tempC + atm.T;                                                   // Температура воздуха внутри шара
+    var tempMax = tempMaxC + atm.T;                                             // Максимальная температура воздуха в оболочке
     var speed = 0;                                                              // Текущая вертикальная скорость
     var accel = 0;                                                              // Текущее вертикальное ускорение
     var height = 0;                                                             // Текущая высота от уровня моря
@@ -60,8 +61,8 @@ var Balloon = function (radius, weight, tempC, onUpdate) {
         // Обновим данные о температуре воздуха в шаре
         if (fire) {
             temp = temp + Balloon.prototype.heatingStep * deltaT / 1000;
-            if (temp > Balloon.prototype.coolingMax) {
-                temp = Balloon.prototype.coolingMax;
+            if (temp > tempMax) {
+                temp = tempMax;
             }
         } else {
             temp = temp - Balloon.prototype.coolingStep * deltaT / 1000;
@@ -155,9 +156,8 @@ var Balloon = function (radius, weight, tempC, onUpdate) {
 
 Balloon.prototype = {
     maxSpeed: 10,                                                               // Модуль максимально допустимой скорости взлета и снижения
-    heatingStep: 1,                                                             // Скорость нагрева воздуха при включеной горелке
-    coolingStep: 10,                                                            // Скорость остывания при выключеной горелке
-    coolingMax: 468,                                                            // Максимально возможная температура нагрева
+    heatingStep: 5,                                                             // Скорость нагрева воздуха при включеной горелке
+    coolingStep: 5,                                                             // Скорость остывания при выключеной горелке
     Cx: 0.48,                                                                   // Коэфициент лобового сопротивления воздушного шара (считаем одинаковым во всех направлениях)
     G: 9.81                                                                     // Ускорение свободного падения
 };

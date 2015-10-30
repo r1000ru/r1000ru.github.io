@@ -1,5 +1,5 @@
-var App = function (radius, weight, temp) {
-
+var App = function (radius, weight, tempMaxC, tempC) {
+    var delay = 100;
     
     // Получим объекты DOM для быстрого обращения к ним
     var fireButton      = document.getElementById('fireButton');
@@ -12,28 +12,62 @@ var App = function (radius, weight, temp) {
     var balloon         = null;
     var autocontrol     = false;
     var autopressure    = 0;
-    var lastpressure    = 0;
-
+    var lasttime = Date.now();
+    var lastpressure = 0;
+    var counter = 0;
+    var preheat = false;
     var autopilot = function(pressure) {
         var result = false;
+        var time = Date.now();
+       
+        // Разница в давления между автовысотой и текущим давлением
+        var diffpressure = pressure - autopressure;
+        
+        // Следует учесть что это скорость изменения давления и она на 
+        // взлете отрицательна, в Па в сек
+        var speed = (pressure - lastpressure) * 1000 / (time - lasttime);
+        
+        
         if (pressure > autopressure) {
+            // Включаем горелку, если нам надо стремиться вверх
             result = true;
-            var dif = lastpressure-pressure;
-            // Не даем разогнаться очень быстро
-            if (dif>3) {
+            // Если скорость набора слишком высока - не будем поднимать температуру
+            if(speed < -50) {
                 result = false;
             }
-            if (pressure - autopressure<2000 && dif>2) {
+            // Если разница давлений меньше 3000 Па и скорость меньше -30Па/с - тоже не будем прибавлять
+            if(diffpressure<3000 && speed < -30) {
+                result = false;
+                console.log()
+            }
+            // Если разница давлений меньше 1000 Па и скорость меньше -10Па/с - тоже не будем прибавлять
+            if(diffpressure<1000 && speed < -8) {
                 result = false;
             }
-            if (pressure - autopressure<1000 && dif>1) {
-                result = false;
+        } else {
+            // Выключаем горелку, если нам надо стремиться вниз
+            result = false;
+            // Если скорость снижения слишком высока - притормозим спуск
+            if(speed > 30) {
+                result = true;
             }
-            if (pressure - autopressure<500 && dif>0.05) {
-                result = false;
+            // Если разница давлений больше -3000 Па и скорость свыше 20Па/с - притормозим спуск
+            if(diffpressure > -4000 && speed > 40) {
+                result = true;
+            }
+            // Если разница давлений больше -3000 Па и скорость свыше 20Па/с - притормозим спуск
+            if(diffpressure > -2000 && speed > 20) {
+                result = true;
+            }
+            // Если разница давлений больше -1000 Па и скорость свыше 10Па/с - тоже не будем прибавлять
+            if(diffpressure > -1000 && speed > 2) {
+                result = true;
             }
         }
+        console.log(autopressure, pressure, diffpressure, speed);
+        lasttime = time;
         lastpressure = pressure;
+        lastspeed = speed;
         return result;
     };
     
@@ -129,7 +163,7 @@ var App = function (radius, weight, temp) {
         };
         
         // Создаем новый воздушный шар
-        balloon = new Balloon(radius, weight, temp,  function (fire, pressure, debug) {
+        balloon = new Balloon(radius, weight, tempC, tempMaxC, function (fire, pressure, debug) {
             if (autocontrol) {
                 balloon.fire(autopilot(pressure));
             }
@@ -138,7 +172,7 @@ var App = function (radius, weight, temp) {
             drawDebug(debug);
         });
         
-        // Запустим обсчет параметров шара с интервалом 0.1 секунда
-        balloon.start(100);
+        // Запустим обсчет параметров шара
+        balloon.start(delay);
     };
 };

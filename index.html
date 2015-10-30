@@ -7,7 +7,7 @@
         <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
         <title>Aerostat simualator</title>
         <link rel="stylesheet" href="css/styles.css">
-        
+        <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
     </head>
     <body>
         <div class="control">
@@ -26,12 +26,15 @@
         <script src="js/balloon.js"></script>
         <script src="js/app.js"></script>
         <script>
-            var temp = 15;
-            var radius = 8;
-            var weight = 150;
+            
+            
 
-
-            var app = new App(radius, weight, temp);
+            var radius = 8;             // Радиус воздушного шара для класса FAI АХ-8
+            var weight = 250 + 130;     // Масса шара (с оболочкой) + полезная нагрузка
+            var tempMaxC = 120;         // Максимальная температура воздуха в оболочке, после чего сработает ограничитель, в градусах Цельсия
+            var tempC = 15;             // Температура атмосферы на уровне моря в градусах цельсия
+            
+            var app = new App(radius, weight, tempMaxC, tempC);
             app.init();
             
         </script>
