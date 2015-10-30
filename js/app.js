@@ -123,9 +123,9 @@ var App = function (radius, weight, tempMaxC, tempC) {
         balloonDiv.style.marginTop = margin;
 
         if (fire) {
-            balloonDiv.style.borderBottomColor = 'red';
+            balloonDiv.style.background = "url('/img/balloonfire.png')";
         } else {
-            balloonDiv.style.borderBottomColor = 'black';
+            balloonDiv.style.background = "url('/img/balloon.png')";
         }
 
         var tDif = balloon.coolingMax - 255;
