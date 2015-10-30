@@ -12,10 +12,10 @@ var App = function (radius, weight, tempMaxC, tempC) {
     var balloon         = null;
     var autocontrol     = false;
     var autopressure    = 0;
+    
     var lasttime = Date.now();
     var lastpressure = 0;
-    var counter = 0;
-    var preheat = false;
+
     var autopilot = function(pressure) {
         var result = false;
         var time = Date.now();
@@ -38,7 +38,6 @@ var App = function (radius, weight, tempMaxC, tempC) {
             // Если разница давлений меньше 3000 Па и скорость меньше -30Па/с - тоже не будем прибавлять
             if(diffpressure<3000 && speed < -30) {
                 result = false;
-                console.log()
             }
             // Если разница давлений меньше 1000 Па и скорость меньше -10Па/с - тоже не будем прибавлять
             if(diffpressure<1000 && speed < -8) {
@@ -64,10 +63,9 @@ var App = function (radius, weight, tempMaxC, tempC) {
                 result = true;
             }
         }
-        console.log(autopressure, pressure, diffpressure, speed);
+
         lasttime = time;
         lastpressure = pressure;
-        lastspeed = speed;
         return result;
     };
     
