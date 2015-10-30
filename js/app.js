@@ -15,55 +15,59 @@ var App = function (radius, weight, tempMaxC, tempC) {
     
     var lasttime = Date.now();
     var lastpressure = 0;
-
+    var lastspeed = 0;
+    var maxspeed = 30;                                                          // Максимальная скорость по модулю на расстоянии 3000 Па
+    var maxaccel = 2;                                                           // Максимальное ускорение торможения по модулю
+    var maxdistance = 3000;                                                     // Максимальное расстояние в Па по модулю. ниже которого будут работать ограничения
+    
     var autopilot = function(pressure) {
         var result = false;
         var time = Date.now();
        
         // Разница в давления между автовысотой и текущим давлением
-        var diffpressure = pressure - autopressure;
+        var diffpressure = autopressure - pressure;
         
-        // Следует учесть что это скорость изменения давления и она на 
-        // взлете отрицательна, в Па в сек
+        // Текущая скорость в Па/c
         var speed = (pressure - lastpressure) * 1000 / (time - lasttime);
-        
-        
+        // Текущее ускорение
+        var accel = speed - lastspeed;
+        // Текущая допустимая максимальная скорость по модулю
+        var curMaxSpeed =  Math.abs(diffpressure * maxspeed / maxdistance);
+        if (curMaxSpeed > maxspeed) {
+            curMaxSpeed = maxspeed;
+        }
+        // Текущая допустимая максимальная скорость снижения/нарастания скорости по модулю
+        var curMaxAccel = Math.abs(diffpressure * maxaccel / maxdistance);
+        if (curMaxAccel > maxaccel) {
+            curMaxAccel = maxaccel;
+        }
         if (pressure > autopressure) {
             // Включаем горелку, если нам надо стремиться вверх
             result = true;
-            // Если скорость набора слишком высока - не будем поднимать температуру
-            if(speed < -50) {
-                result = false;
-            }
-            // Если разница давлений меньше 3000 Па и скорость меньше -30Па/с - тоже не будем прибавлять
-            if(diffpressure<3000 && speed < -30) {
-                result = false;
-            }
-            // Если разница давлений меньше 1000 Па и скорость меньше -10Па/с - тоже не будем прибавлять
-            if(diffpressure<1000 && speed < -8) {
-                result = false;
+            
+            if(speed<0) {
+                if(-1*speed>curMaxSpeed) {
+                    result = false;
+                }
+                
+                if (accel > curMaxAccel) {
+                    result = true;
+                }
             }
         } else {
-            // Выключаем горелку, если нам надо стремиться вниз
             result = false;
-            // Если скорость снижения слишком высока - притормозим спуск
-            if(speed > 30) {
-                result = true;
-            }
-            // Если разница давлений больше -3000 Па и скорость свыше 20Па/с - притормозим спуск
-            if(diffpressure > -4000 && speed > 40) {
-                result = true;
-            }
-            // Если разница давлений больше -3000 Па и скорость свыше 20Па/с - притормозим спуск
-            if(diffpressure > -2000 && speed > 20) {
-                result = true;
-            }
-            // Если разница давлений больше -1000 Па и скорость свыше 10Па/с - тоже не будем прибавлять
-            if(diffpressure > -1000 && speed > 2) {
-                result = true;
+            if(speed>0) {
+                if(speed > curMaxSpeed) {
+                    result = true;
+                }
+
+                if (-1*accel > curMaxAccel) {
+                    result = false;
+                }
             }
         }
-
+        
+        lastspeed = speed;
         lasttime = time;
         lastpressure = pressure;
         return result;
