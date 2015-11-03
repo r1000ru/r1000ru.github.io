@@ -8,7 +8,15 @@ var App = function (radius, weight, tempMaxC, tempC) {
     var debugValues     = document.getElementById('debugValues');
     var currPressValue  = document.getElementById('currPressValue');
     var balloonDiv      = document.getElementById('balloonDiv');
-
+    /*
+    var viewer          = new Cesium.Viewer('cesiumContainer');
+    var terrainProvider = new Cesium.CesiumTerrainProvider({
+        url : '//assets.agi.com/stk-terrain/world',
+        requestWaterMask: true
+    });
+    
+    viewer.terrainProvider = terrainProvider;
+    */
     var balloon         = null;
     var autocontrol     = false;
     var autopressure    = 0;
