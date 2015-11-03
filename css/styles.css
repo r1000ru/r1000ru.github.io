@@ -24,6 +24,7 @@ body {
     border: 1px solid #3a62b2;
     background: #3a62b2;
     margin-left: 360px;
+    padding-left: 50%;
     border-bottom: 10px solid greenyellow;
 }
 #balloonDiv {
