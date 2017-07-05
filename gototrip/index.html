@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GoToTrip</title>
+    <link rel='stylesheet' href='css/styles.css' type='text/css' media='screen' />
+</head>
+
+<body>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+
+    <script src="libs/r1000ru.libs.MicroTemplate.js"></script>
+
+    <script src="js/r1000ru.expedition.App.js"></script>
+    <script src="js/r1000ru.expedition.Map.js"></script>
+    <script src="js/r1000ru.expedition.Expedition.js"></script>
+    <script src="js/r1000ru.expedition.Point.js"></script>
+    <script src="js/r1000ru.expedition.mapStyle.js"></script>
+    <script src="trip.js"></script>
+
+    <script>
+        // Файлы предзагружаемых шаблонов
+        var templateFiles = {
+            'body': 'templates/body.html',
+            'bodyExpedition': 'templates/body.expedition/expedition.html',
+            'bodyExpeditionDay': 'templates/body.expedition/expedition.day.html',
+            'bodyExpeditionPoint': 'templates/body.expedition/expedition.point.html'
+        };
+
+        // После создания DOM
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Создаем новый экземпляр шаблонизатора
+            var templates = new r1000ru.MicroTemplate();
+            // Вызываем предзагрузку шаблонов
+            templates.fromFiles(templateFiles, function(result) {
+                if (!result) {
+                    console.error('Не все шаблоны загружены, проверьте пути и названия файлов.')
+                    return;
+                }
+
+                window.app = new r1000ru.expedition.App(templates);
+            });
+        });
+    </script>
+</body>
+
+</html>

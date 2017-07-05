@@ -1,0 +1,154 @@
+window, body {
+    margin: 0px;
+    padding: 0px;
+    height: 100vh;
+}
+body>.body {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    font-family: 'Open sans';
+    font-size: 14px;
+}
+body>.body>.operations {
+    display: flex;
+    flex: 1;
+}
+
+
+
+
+
+
+body>.body>.map {
+    flex: 2;
+}
+body>.body>.operations>.expedition {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+body>.body>.operations>.expedition>.title {
+    padding: 10px;
+    color: white;
+    background: #0288a5;
+    font-weight: lighter;
+    font-size: 24px;
+}
+body>.body>.operations>.expedition>.points {
+    flex: 1;
+    margin: 0px;
+    padding: 0px;
+    background: #b3e2ec;
+}
+
+body>.body>.operations>.expedition>.points {
+    display: flex;
+    flex-flow: column;
+    overflow-y: scroll;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+body>.body>.operations>.expedition>.points::-webkit-scrollbar {
+    width: 5px;
+    background: #d2d7db;
+}
+
+body>.body>.operations>.expedition>.points::-webkit-scrollbar-track {
+    background: #d2d7db;
+}
+
+body>.body>.operations>.expedition>.points::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background: #8c949f;
+}
+
+
+body>.body>.operations>.expedition>.points>dt {
+    margin: 0px;
+    padding: 10px;
+    text-align: center;
+    background: #f25a29;
+    color: #414143;
+    font-weight: bold;
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+    position: sticky;
+    top: 0;
+    margin: 0px;
+}
+body>.body>.operations>.expedition>.points>dd{
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    min-height: 30px;
+    padding: 3px;
+    background: white;
+    border-bottom: 1px solid #fcb040;
+}
+
+body>.body>.operations>.expedition>.points>dd>.title {
+    margin: auto 5px auto 0px;
+    color: #414143;
+    flex: 1;
+    height: 20px;
+}
+
+body>.body>.operations>.expedition>.points>dd>i {
+    display: block;
+    margin: auto 5px auto 0px;
+    color: #f7941d;
+}
+
+body>.body>.operations>.expedition>.points>dd>.timestart,
+body>.body>.operations>.expedition>.points>dd>.timelong,
+body>.body>.operations>.expedition>.points>dd>.distance,
+body>.body>.operations>.expedition>.points>dd>.price {
+    margin: auto 5px auto 0px;
+    padding: 1px 3px;
+    border-radius: 3px;
+    border: 1px solid #f7941d;
+    color: #414143;
+    display: block;
+    height: 20px;
+}
+
+body>.body>.operations>.expedition>.points>dd>.timestart:empty,
+body>.body>.operations>.expedition>.points>dd>.timelong:empty,
+body>.body>.operations>.expedition>.points>dd>.distance:empty,
+body>.body>.operations>.expedition>.points>dd>.price:empty {
+    display: none;
+}
+
+body>.body>.operations>.expedition>.points>dd>.timestart::before,
+body>.body>.operations>.expedition>.points>dd>.timelong::before,
+body>.body>.operations>.expedition>.points>dd>.distance::before,
+body>.body>.operations>.expedition>.points>dd>.price::before {
+    font-family: 'Material Icons';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    font-feature-settings: 'liga';
+}
+
+body>.body>.operations>.expedition>.points>dd>.timestart::before {
+    content: 'schedule ';
+}
+body>.body>.operations>.expedition>.points>dd>.distance::before {
+    content: 'timeline ';
+}
+body>.body>.operations>.expedition>.points>dd>.distance::after {
+    content: ' km';
+}
+body>.body>.operations>.expedition>.points>dd>.timelong::before {
+    content: 'hourglass_empty';
+}
+
+body>.body>.operations>.expedition>.points>dd>.price::before {
+    content: 'payment'
+}
+
