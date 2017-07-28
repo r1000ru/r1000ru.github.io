@@ -20,8 +20,21 @@
         <input type="range" min="0" max="10000" id="heightSlider" value="0">
         <p id="controlValue">Ручное управление. Горелка выключена.</p>
         <input type="button" value="Горелка" id="fireButton" />
+        <p id="dataHeight"></p>
         <p id="currPressValue"></p>
-        <p id="debugValues"></p>
+        <p id="dataSpeed"></p>
+        <p id="dataAccelerate"></p>
+        <p id="dataPassengerWeight"></p>
+        <p id="dataBalloonWeight"></p>
+        <p id="dataTotalWeight"></p>
+
+        <p id="dataBalloonSquare"></p>
+        <p id="dataBalloonVolume"></p>
+        <p id="dataAirTemp"></p>
+        <p id="dataFUp"></p>
+        <p id="dataFDown"></p>
+        <p id="dataFCx"></p>
+        <p id="dataFTotal"></p>
     </div>
     <div class="atmosphere" id="cesiumContainer">
         <div id="balloonDiv"></div>
@@ -32,7 +45,7 @@
     <script src="js/app.js"></script>
     <script>
         var radius = 8; // Радиус воздушного шара для класса FAI АХ-8
-        var weight = 250 + 130; // Масса шара (с оболочкой) + полезная нагрузка
+        var weight = 230 + 45; // Масса шара (с оболочкой) + полезная нагрузка
         var tempMaxC = 120; // Максимальная температура воздуха в оболочке, после чего сработает ограничитель, в градусах Цельсия
         var tempC = 15; // Температура атмосферы на уровне моря в градусах цельсия
 

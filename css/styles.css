@@ -2,24 +2,29 @@
     Created on : 28.10.2015, 15:48:24
     Author     : Roman Sorokin
 */
+
 body {
     margin: 0px;
     padding: 0px;
 }
+
 .control {
     float: left;
     width: 340px;
     padding: 10px;
 }
+
 .control input {
     width: 100%;
 }
+
 .info {
     font-size: 12px;
     margin-bottom: 15px;
     color: #ccc;
 }
-.atmosphere{
+
+.atmosphere {
     height: 820px;
     border: 1px solid #3a62b2;
     background: #3a62b2;
@@ -27,11 +32,67 @@ body {
     padding-left: 50%;
     border-bottom: 10px solid greenyellow;
 }
+
 #balloonDiv {
     width: 75px;
     height: 75px;
-    background:url('../img/balloon.png') top center;
+    background: url('../img/balloon.png') top center;
     margin-left: -235px;
     margin-top: 800px;
-    
+}
+
+#currPressValue:before {
+    content: 'Давление воздуха на текущей высоте: ';
+}
+
+#dataPassengerWeight:before {
+    content: 'Вес пассажира: ';
+}
+
+#dataBalloonWeight:before {
+    content: 'Вес оболочки шара и корзины: ';
+}
+
+#dataAirWeight:before {
+    content: 'Вес воздуха в оболоче: ';
+}
+
+#dataBalloonSquare:before {
+    content: 'Площадь оболочки';
+}
+
+#dataBalloonVolume:before {
+    content: 'Объем оболочки';
+}
+
+#dataHeight:before {
+    content: 'Текущая высота шара: ';
+}
+
+#dataAccelerate:before {
+    content: 'Вертикальное ускорение шара: ';
+}
+
+#dataSpeed:before {
+    content: 'Вертикальная скорость шара: ';
+}
+
+#dataAirTemp:before {
+    content: 'Температура окружающего воздуха: ';
+}
+
+#dataFUp:before {
+    content: 'Подъемная сила шара: ';
+}
+
+#dataFDown:before {
+    content: 'Сила притяжения земли: ';
+}
+
+#dataFCx:before {
+    content: 'Сила сопротивления воздуха: ';
+}
+
+#dataFTotal:before {
+    content: 'Сумма сил, действующих на шар: ';
 }
