@@ -8,6 +8,8 @@ body {
     padding: 0px;
 }
 
+
+
 .control {
     float: left;
     width: 340px;
@@ -36,7 +38,7 @@ body {
 #balloonDiv {
     width: 75px;
     height: 75px;
-    background: url('../img/balloon.png') top center;
+    background: url('img/balloon.png') top center;
     margin-left: -235px;
     margin-top: 800px;
 }
