@@ -24,11 +24,12 @@
         </aside>
         <main class="main">
             <h2>Opensource-проекты</h2>
+            
             <h3>Консольный клиент для Nats</h3>
             <p>
                 Брокер запросов и сообщений <a href="https://nats.io">Nats</a> - показал себя отличным инструментом как для организации Pub/Sub взаимодействия, 
                 так и для организации связи между микросервисами. Для тестов и отправки/приема отладочной информации, мною написан консольный клиент 
-                <a href="https://github.com/r1000ru/nats-cli">nats-cli</a>. Его основные возможности:
+                <a href="https://github.com/r1000ru/nats-term">nats-term</a>. Его основные возможности:
             </p>
             <ul>
                 <li>Отправка запросов в канал и получение ответов</li>
@@ -40,18 +41,77 @@
                 Клиент написан на NodeJS и требует чтобы она была установлена на компьютере пользователя. Для использования клиента, достаточно один раз установить :
                 его глобально:
             </p>
-            <pre>npm install -g git+https://github.com/r1000ru/nats-cli</pre>
+            <pre>npm install -g nats-term</pre>
             <p>
                 После установки, для его запуска достаточно выполнить команду:
             </p>
-            <pre>nats-cli -h 127.0.0.1 -p 4222</pre>
+            <pre>nats-term -h 127.0.0.1 -p 4222</pre>
             <p>
                 Приведенные выше хост и порт - указывать не обязательно, они выставлены по умолчанию. Ключи хоста и порта следует использовать только в том случае, если они отличны от дефолтных.
             </p>
             <!--<h3>Сервер для создания API на NodeJS</h3>-->
+
+            <h3>API Сервер JsonRPC для взаимодействия через HTTP(s) и Nats</h3>
+            <p>Подробная документация доступна на <a href="https://github.com/r1000ru/jsonrpc-server-http-nats">GitHub</a></p>
+            <p> Установка:</p>
+            <pre>
+npm install jsonrpc-server-http-nats --save
+            </pre>
+            <p>Использование</p>
+            <pre>
+const JsonRPCServer = require('jsonrpc-server-http-nats');
+
+// Создаем экземпляр сервера
+var server = new JsonRPCServer();
+
+// Обработчик на метод Ping
+server.on('Ping', (response) => {
+    let error = null;
+    let result = 'Pong';
+    response(error, result);
+});
+
+
+// Запустим сервер по HTTP
+server.listenHttp();
+
+// Запустим сервер по nats
+server.listenNats('nats://127.0.0.1:4222', 'TestChannel')
+            </pre>
+            
+
+            <h3>Клиент JsonRPC API для взаимодействия с сервером через HTTP(s) и Nats</h3>
+            <p>Подробная документация доступна на <a href="https://github.com/r1000ru/jsonrpc-client-http-nats">GitHub</a></p>
+            <p> Установка:</p>
+            <pre>
+npm install jsonrpc-client-http-nats --save
+            </pre>
+            <p>Использование</p>
+            <pre>
+// Подключаем библиотеку
+const JsonRPCClient = require('jsonrpc-client-http-nats');
+
+// Создаем клиент для обращения по HTTP(s)
+let httpClient = JsonRPCClient.http('http://127.0.0.1:8080');
+
+// И(или) создадаем клиент для обращения через Nats с запросами в канал MyChannel
+let natsClient = JsonRPCClient.nats('nats://127.0.0.1:4222', 'MyChannel');
+
+// Отправляем запрос через HTTP(s)
+httpClient.request('FirstMethod', { title: 'MyTitle' }, (err, result)=>{
+    console.log(err, result);
+})
+
+// Отправляем запрос через Nats
+natsClient.request('SecondMethod', { title: 'MyData' }, (err, result)=>{
+    console.log(err, result);
+})
+            </pre>
+
+
             <h3>Валидатор входящих параметров</h3>
             <p>
-                <a href="https://github.com/r1000ru/params-validator">Модуль</a> предназначен для обработки данных, приходящих на API-сервер. Важное качество - ориентирован на клиенты, которые работают с типизированными языками (не позволяет строке присвоить False и т.п.)
+                <a href="https://github.com/r1000ru/params-checker">Модуль</a> предназначен для обработки данных, приходящих на API-сервер. Важное качество - ориентирован на клиенты, которые работают с типизированными языками (не позволяет строке присвоить False и т.п.)
                 Поддерживает проверку следующих типов данных (для каждой проверки можно указать отдельно, обязательность и возможность Null`а):
             </p>
             <ul>
@@ -63,7 +123,7 @@
                 <li>Объекта, с проверкой типа каждого свойства</li>
             </ul>
             <pre>
-const PV = require('params-validator');
+const PC = require('params-checker');
 
 let inputParams = {
     title: 'ParamsValidator',
@@ -72,17 +132,17 @@ let inputParams = {
     is_support: 'num'
 }
 
-let checker = PV.obj(true, false {      // Объект, обязателелен, не может быть NULL
-    title: PV.str(true, true, 1, 64),  // Строка, обязательна, может быть NULL, от 1 до 64 символов
-    version: PV.num(false, false, 1),   // Число, не обязательно, не менее 1-го
-    inProduction: PV.bool(true, false),  // Булевый параметр, обязателен, не может быть NULL
-    is_support: PV.enum(false, false, ['str','num','arr','obj','bool','enum'])  // Одно из возможных значений, не обязательно, не может быть NULL
+let checker = PC.obj(true, false {      // Объект, обязателелен, не может быть NULL
+    title: PC.str(true, true, 1, 64),  // Строка, обязательна, может быть NULL, от 1 до 64 символов
+    version: PC.num(false, false, 1),   // Число, не обязательно, не менее 1-го
+    inProduction: PC.bool(true, false),  // Булевый параметр, обязателен, не может быть NULL
+    is_support: PC.enum(false, false, ['str','num','arr','obj','bool','enum'])  // Одно из возможных значений, не обязательно, не может быть NULL
 })
 
 var checkedParams;
 
 try {
-    checkedParams = validator.check(inputParams);
+    checkedParams = checker.check(inputParams);
 } catch (e) {
     console.log('Error: ' + e.message);
     return;
