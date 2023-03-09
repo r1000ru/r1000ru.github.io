@@ -426,7 +426,7 @@ section {
     display: flex;
     height: 100vh;
     max-height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     background-color: #2c313c;
 }
 
@@ -646,4 +646,4 @@ section {
     }
 }
 
-/*# sourceMappingURL=main.8d14b73313da4b41446a.css.map*/
+/*# sourceMappingURL=main.84654e8e2bfc4231e66d.css.map*/
